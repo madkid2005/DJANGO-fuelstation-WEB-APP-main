@@ -83,23 +83,19 @@
             <input type="text" class="" id="name" name="name"  placeholder="اسم جایگاه سوخت" required>
             <label  class="" for="name">اسم جایگاه سوخت</label>
         </div>
-
+        <div class="form-group showFuel showAll">
+            <input type="number" class="showFuel" step="0.01" placeholder="مقدار رسید بنزین دوره" id="gasoline_received" name="gasoline_received" required>
+            <label for="gasoline_received">مقدار رسیده بنزین دوره</label>
+        </div>
         <div class="form-group showFuel showAll">
             <input type="number" class="showFuel" id="gasoline_tanks" placeholder="تعداد مخازن بنزین" name="gasoline_tanks" required>
             <label for="gasoline_tanks">تعداد مخازن بنزین</label>
-        </div>
-        <div class="form-group showGaz showAll">
-            <input type="number" class="showGaz" id="gas_tanks" placeholder="تعداد مخازن گاز" name="gas_tanks" required>
-            <label for="gas_tanks">تعداد مخازن گاز</label>
         </div>
         <div class="form-group showFuel showAll">
             <input type="number" class="showFuel" id="gasoline_nozzles" placeholder="تعداد نازل های بنزین " name="gasoline_nozzles" required>
             <label for="gasoline_nozzles">تعداد نازل‌های بنزین</label>
         </div>
-        <div class="form-group showGaz showAll">
-            <input type="number" class="showGaz" placeholder="تعداد نازل های گاز" id="gas_nozzles" name="gas_nozzles" required>
-            <label for="gas_nozzles">تعداد نازل‌های گاز</label>
-        </div>
+       
         <div class="form-group showFuel showAll">
             <input type="number" class="showFuel" step="0.01" placeholder="مقدار ابتدای دوره بنزین" id="gasoline_beginning" name="gasoline_beginning" required>
             <label for="gasoline_beginning">مقدار ابتدای دوره بنزین</label>
@@ -108,17 +104,19 @@
             <input type="number" class="showGaz" step="0.01" placeholder="مقدار ابتدای دوره گاز" id="gas_beginning" name="gas_beginning" required>
             <label for="gas_beginning">مقدار ابتدای دوره گاز</label>
         </div>
-        <div class="form-group showFuel showAll">
-            <input type="number" class="showFuel" step="0.01" placeholder="مقدار رسید بنزین دوره" id="gasoline_received" name="gasoline_received" required>
-            <label for="gasoline_received">مقدار رسیده بنزین دوره</label>
-        </div>
+        
         <div class="form-group showGaz showAll">
             <input type="number" class="showGaz" step="0.01" placeholder="مقدار رسید گاز دوره" id="gas_received" name="gas_received" required>
             <label for="gas_received">مقدار رسیده گاز دوره</label>
         </div>
-        <div class="form-group showFuel showAll">
-            <input type="number" class="showFuel" step="0.01" placeholder="کل فروش الکترونیکی بنزین" id="electronic_gasoline_sales" name="electronic_gasoline_sales" required>
-            <label for="electronic_gasoline_sales">کل فروش الکترونیکی بنزین</label>
+        
+        <div class="form-group showGaz showAll">
+            <input type="number" class="showGaz" id="gas_tanks" placeholder="تعداد مخازن گاز" name="gas_tanks" required>
+            <label for="gas_tanks">تعداد مخازن گاز</label>
+        </div>
+        <div class="form-group showGaz showAll">
+            <input type="number" class="showGaz" placeholder="تعداد نازل های گاز" id="gas_nozzles" name="gas_nozzles" required>
+            <label for="gas_nozzles">تعداد نازل‌های گاز</label>
         </div>
         <div class="form-group showGaz showAll">
             <input type="number" class="showGaz" step="0.01" placeholder="کل فروش الکترونیکی گاز" id="electronic_gas_sales" name="electronic_gas_sales" required>
@@ -133,6 +131,7 @@
             <label for="end_date">تاریخ پایان دوره</label>
         </div>
         <button type="submit" class="btn btn-light w-100 mt-4 mb-4 showBase text-black">ذخیره</button>
+        <p></p>
     </form>
 </div>
 

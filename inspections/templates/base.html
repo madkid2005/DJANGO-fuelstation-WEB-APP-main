@@ -15,9 +15,16 @@
       a{
         text-decoration: none;
       }
+
+      @font-face {
+            font-family: "ServerName";
+            src: url('/static/fonts/Mitra.ttf') format('truetype');
+
+        }
         @font-face {
             font-family: "Vazir";
             src: url(http://rastikerdar.github.io/vazirmatn/);
+            
         }
        
         .form-group {
@@ -102,7 +109,9 @@
                     animation: gradientAnimation 3s ease infinite;
         
         }
-        
+        .Font{
+          font-family: "ServerName";
+        }
         @keyframes gradientAnimation {
                     0% {
                         background-position: 0% 50%;
@@ -114,14 +123,19 @@
                         background-position: 0% 50%;
                     }
                 }
-        
+                .KIANOOBS{
+        filter: sepia(1) saturate(10000%) hue-rotate(180deg);
+          filter: brightness(0) invert(1);
+
+      }
         </style>
 </head>
 <body>
 
   <div class="border-bottom " >
-    <a class="navbar-brand " href="{% url 'home' %}">
-        <img src="{% static 'img/white-logo.png' %}"  class="img-fluid" alt="">
+    <a class="navbar-brand d-flex " href="{% url 'home' %}">
+        <img  src="https://www.nigc-zanjan.ir/content/adminlogo.png" width="75px"  class="img-fluid KIANOOBS" alt="">
+        <h3 class="text-white fw-bold pt-4 mt-2 ms-3 Font">شرکت ملی بخش فرآورده های نفتی ایران</h3>
     </a>
   </div> 
     <div class="container mt-4">
