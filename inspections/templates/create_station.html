@@ -17,6 +17,9 @@
             font-size: 16px;
             transition: transform 0.3s ease, background-color 0.3s ease;
             
+        }
+        .glasss{
+            
             background: rgba(255, 255, 255, 0.2);
                     border-radius: 15px;
                     backdrop-filter: blur(10px);
@@ -31,7 +34,6 @@
                     padding: 20px;
                     font-weight: bold
         }
-
         .btn-gas:hover {
             transform: scale(1.1);
         }
@@ -67,9 +69,9 @@
 </style>
 <p class="text-center text-white">لطفا یکی از گزینه های زیر انتخاب کنید</p>
 <div class="button-container">
-    <button onclick="showGas()" class="btn btn-gas btn btn-outline-info w-100">گاز</button>
-    <button onclick="showPetrol()" class="btn btn-petrol btn btn-outline-info w-100">بنزین</button>
-    <button onclick="showBoth()" class="btn btn-both btn btn-outline-info w-100">هر دو</button>
+    <button onclick="showGas()" class="btn glasss btn-gas btn btn-outline-info w-100">گاز</button>
+    <button onclick="showPetrol()" class="btn glasss btn-petrol btn btn-outline-info w-100">بنزین</button>
+    <button onclick="showBoth()" class="btn glasss btn-both btn btn-outline-info w-100">هر دو</button>
 </div>
 <h5 class="text-start text-white mt-3 ms-2 showBase">ایجاد جایگاه سوخت:</h5>
 <div   class="container  mt-4 px-2">
@@ -130,7 +132,7 @@
             <input type="date" placeholder="تاریخ پایان دوره" id="end_date" name="end_date" required>
             <label for="end_date">تاریخ پایان دوره</label>
         </div>
-        <button type="submit" class="btn btn-light w-100 mt-4 mb-4 showBase">ذخیره</button>
+        <button type="submit" class="btn btn-light w-100 mt-4 mb-4 showBase text-black">ذخیره</button>
     </form>
 </div>
 
