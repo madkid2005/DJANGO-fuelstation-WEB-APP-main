@@ -1,75 +1,138 @@
 {% extends "base.html" %}
 {% block content %}
 <style>
-    .text-white {
-    color: white !important;
+   table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
 }
 
-.table-bordered {
-    border: 1px solid #dee2e6;
+th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: center;
+}
+td{
+    background-color: #ffffff;
+}
+th {
+    background-color: #f2f2f2;
 }
 
-.table-bordered th,
-.table-bordered td {
-    border: 1px solid #dee2e6;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(255, 255, 255, 0.05); /* Adjust the transparency as needed */
+thead th {
+    background-color: #ddd;
+    font-weight: bold;
 }
 
 </style>
 <div class="container mt-4">
     <h2 class="text-white">جزئیات جایگاه {{ station.name }}</h2>
-    <table class="table table-bordered table-striped text-white">
+    
+    <table>
+        <thead>
+            <tr>
+                <th colspan="4">گزارش عملیات انتقال</th>
+                <th colspan="4">گزارش عملیات دریافت</th>
+            </tr>
+        </thead>
         <tbody>
             <tr>
-                <th>مکانیکی بنزین</th>
-                <td>{{ gasoline_mechanical_sales }}</td>
+                <th>نازل</th>
+                <th>شرح</th>
+                <th>تعداد</th>
+                <th>مقدار</th>
+                <th>ردیف</th>
+                <th>شرح</th>
+                <th>تعداد</th>
+                <th>مقدار</th>
             </tr>
             <tr>
-                <th>مکانیکی گاز</th>
-                <td>{{ gas_mechanical_sales }}</td>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <th>موجودی انتهای دوره بنزین</th>
-                <td>{{ gasoline_end_inventory }}</td>
+                <td>2</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>2</td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <th>موجودی انتهای دوره گاز</th>
-                <td>{{ gas_end_inventory }}</td>
+                <td>3</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>3</td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <th>کل موجودی بنزین</th>
-                <td>{{ total_gasoline_inventory }}</td>
+                <td>4</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>4</td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <th>کل موجودی گاز</th>
-                <td>{{ total_gas_inventory }}</td>
+                <td></td>
+                <td>آخر</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>آخر</td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <th>کل فرآورده خارج شده بنزین</th>
-                <td>{{ gasoline_outflow }}</td>
+                <td colspan="3" >کل فروش مکانیکی شنگفلار</td>
+                <td style="background-color: yellow;">2</td>
+                <td colspan="3">کل فروش مکانیکی شنگفلار</td>
+                <td style="background-color: red;" >2</td>
             </tr>
             <tr>
-                <th>کل فرآورده خارج شده گاز</th>
-                <td>{{ gas_outflow }}</td>
+                <td colspan="3" >کل فروش الکترونیکی شنگفلار طبق گزارش سامانه</td>
+                <td style="background-color: yellow;">2</td>
+
+                <td colspan="3">کل فروش الکترونیکی شنگفلار طبق گزارش سامانه</td>
+                <td style="background-color: red;" >2</td>
+
             </tr>
             <tr>
-                <th>بعد از فروش باید موجود باشد بنزین</th>
-                <td>{{ gasoline_after_sales }}</td>
+                <td colspan="3">مقدار سوخت تحویلی شنگفلار دوره</td>
+                <td style="background-color: yellow;">2</td>
+
+                <td colspan="3">مقدار سوخت تحویلی شنگفلار دوره</td>
+                <td style="background-color: red;" >2</td>
+
             </tr>
             <tr>
-                <th>بعد از فروش باید موجود باشد گاز</th>
-                <td>{{ gas_after_sales }}</td>
+                <td colspan="3" >مقدار کسری از تحویل شنگفلار</td>
+                <td style="background-color: yellow;">2</td>
+
+                <td colspan="3" >مقدار کسری از تحویل شنگفلار</td>
+                <td style="background-color: red;" >2</td>
+
             </tr>
             <tr>
-                <th>تفاوت موجودی و فروش بنزین</th>
-                <td>{{ gasoline_difference }} ({{ gasoline_status }})</td>
-            </tr>
-            <tr>
-                <th>تفاوت موجودی و فروش گاز</th>
-                <td>{{ gas_difference }} ({{ gas_status }})</td>
+                <td colspan="3">مقدار مغایرت مکانیکی و الکترونیکی شنگفلار</td>
+                <td  style="background-color: yellow;">2</td>
+
+                <td colspan="3" >مقدار مغایرت مکانیکی و الکترونیکی شنگفلار</td>
+                <td style="background-color: red;" >2</td>
+
             </tr>
         </tbody>
     </table>
