@@ -38,23 +38,27 @@
 <div class="container mt-4">
     <div class="row">
 
-    <div class="d-flex justify-content-between">
-        <div>
-
-            <p class="text-white">جزئیات جایگاه :{{ station.name }}</p>
-
-        </div>
-        <div>
-           <p class="text-white me-5"> تاریخ بازدید:</p>
-        </div>
-    </div>
+        <div class="col-12 border border-1 p-1">
+            <div class="d-flex justify-content-between">
     
-    <div class="text-white">
-        <p><strong>ساعت:</strong> {{ station.name }}</p>
-        <p><strong>نام فرآورده</strong> {{ station.date }}</p>
-        <p><strong>دوره کنترل:</strong>  از تاریخ ..... <span>لغایت ......</span></p>
-        <p><strong>کنترل کننده:</strong> {{ station.date }}</p>
-    </div>
+                <div>
+                    <p class="text-white">نام جایگاه : {{ station.name }}</p>
+                    <p class="text-white"><strong>نوع فرآورده : </strong> {{ station.date }}</p>
+    
+                </div>
+    
+                <div>
+                <p class="text-white me-5"> تاریخ بازدید:</p>
+                <p class="text-white me-5"><strong>ساعت:</strong> ...</p>
+                </div>
+    
+            </div>
+            
+            <div class="text-white">
+                <p><strong>دوره کنترل</strong>  از تاریخ : {{ station.start_date }} <span>لغایت : {{ station.end_date }}</span></p>
+                <p><strong>کنترل کننده:</strong> ... </p>
+            </div>
+        </div>
     
 
     <div class="col-12 col-md-6">
@@ -63,7 +67,6 @@
         <thead>
             <tr>
                 <th colspan="4">گزارش عملیات بنزین</th>
-                <!-- <th colspan="4">گزارش عملیات گاز</th> -->
             </tr>
         </thead>
         <tbody>
@@ -72,102 +75,74 @@
                 <th>ابتدا دوره</th>
                 <th>انتها دوره</th>
                 <th>فروش</th>
-<!--  
-                <th>نازل</th>
-                <th>ابتدا دوره</th>
-                <th>انتها دوره</th>
 
-                <th>فروش</th> -->
             </tr>
             <tr>
                 <td>1</td>
-                <td>gggggg</td>
-                <td>gggggggggg</td>
-                <td>gggggggggggg</td>
-                <!-- <td>1</td>
-                <td>ggggggggggggg</td>
-                <td>ggggggggggggggg</td>
-                <td>ggggggggggg</td> -->
+                <td></td>
+                <td></td>
+                <td></td>
+               
             </tr>
             <tr>
                 <td>2</td>
-                <td>ssssssssss</td>
-                <td>sssssssssssssssssss</td>
-                <td>ssssssssssssssss</td>
-                <!-- <td>2</td>
-                <td>sssssssssssssss</td>
-                <td>sssssssssssssss</td>
-                <td>ssssssssssssssssss</td> -->
+                <td></td>
+                <td></td>
+                <td></td>
+                
             </tr>
             <tr>
                 <td>3</td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <!-- <td>3</td>
-                <td></td>
-                <td></td>
-                <td></td> -->
+                
             </tr>
             <tr>
                 <td>4</td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <!-- <td>4</td>
-                <td></td>
-                <td></td>
-                <td></td> -->
+                
             </tr>
             <tr>
                 <td>آخر</td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <!-- <td>آخر</td>
-                <td></td>
-                <td></td>
-                <td></td> -->
+                
             </tr>
             <tr>
                 <td colspan="3" >کل فروش مکانیکی بنزین</td>
-                <td ></td>
-                <!-- <td colspan="3">کل فروش مکانیکی گاز</td>
-                <td ></td> -->
-
+                <td >{{ gasoline_mechanical_sales }}</td>
+                
             </tr>
             <tr>
                 <td colspan="3" >کل فروش الکترونیکی بنزین طبق گزارش سامانه</td>
                 
-                <td style="background-color: red;" >2</td>
-                <!-- <td colspan="3">کل فروش الکترونیکی گاز طبق گزارش سامانه</td>
-                <td style="background-color: yellow;">2</td> -->
+                <td style="background-color: red;" >{{ station.electronic_gasoline_sales }}</td>
+                
 
             </tr>
             <tr>
                 <td colspan="3">مقدار سرک / کسری بنزین</td>
                 
-                <td style="background-color: red;" >2</td>
-                <!-- <td colspan="3">مقدار سرک / کسری گاز</td>
-
-                <td style="background-color: yellow;">2</td> -->
+                <td style="background-color: red;" >{{ gasoline_difference }} ({{ gasoline_status }})</td>
+                
 
             </tr>
             <tr>
                 <td colspan="3" >مقدار کسری غیر مجاز بنزین</td>
                 
-                <td style="background-color: red;" >2</td>
-                <!-- <td colspan="3" >مقدار کسری غیر مجاز گاز</td>
-
-                <td style="background-color: yellow;">2</td> -->
+                <td style="background-color: red;" >{{ qire_mojaz }}</td>
+                
 
             </tr>
             <tr>
                 <td colspan="3">مقدار مغایرت مکانیکی و الکترونیکی بنزین</td>
                 
-                <td style="background-color: red;" >2</td>
-                <!-- <td colspan="3" >مقدار مغایرت مکانیکی و الکترونیکی گاز</td>
-                <td  style="background-color: yellow;">2</td> -->
+                <td style="background-color: red;" >{{ electronic_mechanical_discrepancy }}</td>
+                
 
             </tr>
         </tbody>
@@ -180,8 +155,7 @@
     <table>
         <thead>
             <tr>
-                <!-- <th colspan="4">گزارش عملیات بنزین</th> -->
-                <th colspan="4">گزارش عملیات گاز</th>
+                <th colspan="4">گزارش عملیات نفتگاز</th>
             </tr>
         </thead>
         <tbody>
@@ -190,52 +164,35 @@
                 <th>ابتدا دوره</th>
                 <th>انتها دوره</th>
                 <th>فروش</th>
-<!--  
-                <th>نازل</th>
-                <th>ابتدا دوره</th>
-                <th>انتها دوره</th>
 
-                <th>فروش</th> -->
             </tr>
             <tr>
                 <td>1</td>
-                <td>gggggg</td>
-                <td>gggggggggg</td>
-                <td>gggggggggggg</td>
-                <!-- <td>1</td>
-                <td>ggggggggggggg</td>
-                <td>ggggggggggggggg</td>
-                <td>ggggggggggg</td> -->
+                <td></td>
+                <td></td>
+                <td></td>
+                
             </tr>
             <tr>
                 <td>2</td>
-                <td>ssssssssss</td>
-                <td>sssssssssssssssssss</td>
-                <td>ssssssssssssssss</td>
-                <!-- <td>2</td>
-                <td>sssssssssssssss</td>
-                <td>sssssssssssssss</td>
-                <td>ssssssssssssssssss</td> -->
+                <td></td>
+                <td></td>
+                <td></td>
+                
             </tr>
             <tr>
                 <td>3</td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <!-- <td>3</td>
-                <td></td>
-                <td></td>
-                <td></td> -->
+                
             </tr>
             <tr>
                 <td>4</td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <!-- <td>4</td>
-                <td></td>
-                <td></td>
-                <td></td> -->
+                
             </tr>
             <tr>
                 <td>آخر</td>
@@ -246,52 +203,57 @@
             </tr>
             <tr>
                 
-                 <td colspan="3">کل فروش مکانیکی گاز</td>
-                <td ></td> 
+                <td colspan="3">کل فروش مکانیکی نفتگاز</td>
+                 <td >{{ gas_mechanical_sales }}</td>
 
             </tr>
             <tr>
                
-                <td colspan="3">کل فروش الکترونیکی گاز طبق گزارش سامانه</td>
-                <td style="background-color: yellow;">2</td>
+                <td colspan="3">کل فروش الکترونیکی نفتگاز طبق گزارش سامانه</td>
+                <td style="background-color: yellow;">{{ station.electronic_gas_sales }}</td>
 
             </tr>
             <tr>
-                <td colspan="3">مقدار سرک / کسری گاز</td>
+                <td colspan="3">مقدار سرک / کسری نفتگاز</td>
 
-                <td style="background-color: yellow;">2</td>
+                <td style="background-color: yellow;">{{ gas_difference }} ({{ gas_status }})</td>
 
             </tr>
             <tr>
                
-                <td colspan="3" >مقدار کسری غیر مجاز گاز</td>
+                <td colspan="3" > - </td>
 
-                <td style="background-color: yellow;">2</td>
+                <td style="background-color: yellow;"> - </td>
 
             </tr>
             <tr>
                 
-                <td colspan="3" >مقدار مغایرت مکانیکی و الکترونیکی گاز</td>
-                <td  style="background-color: yellow;">2</td>
+                <td colspan="3" >مقدار مغایرت مکانیکی و الکترونیکی نفتگاز</td>
+                <td  style="background-color: yellow;"> {{ electronic_mechanical_discrepancy_gas }} </td>
 
             </tr>
         </tbody>
     </table>
 </div>
 
+<div class="border border-1 p-1">
+
     <div class="d-flex justify-content-between mt-5 mb-5">
-        <div class="ms-5">
 
-            <p class="text-white ms-5">تاریخ گزارش:</p>
-
+        <div class="">
+            <p class="text-white ">تاریخ گزارش : .........</p>
         </div>
-        <div class="me-5">
-           <p class="text-white me-5">امضا</p>
-        </div>
+        
     </div>
 
+    <div class="">
+        <p class="text-white text-center">امضاء :</p>
+    </div>
 
-    <a href="{% url 'render_pdf' station.id %}" class="btn btn-primary">دانلود PDF</a>
+</div>
+
+
+    <a href="{% url 'render_pdf' station.id %}" class="btn btn-success mt-1 mb-3">دانلود PDF</a>
 </div>
 </div>
 

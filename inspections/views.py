@@ -10,15 +10,12 @@ import os
 
 def home(request):
     return render(request, 'home.html')
-
 def create_station(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         gasoline_tanks = int(request.POST.get('gasoline_tanks'))
         gasoline_nozzles = int(request.POST.get('gasoline_nozzles'))
         gas_nozzles = int(request.POST.get('gas_nozzles'))
-
-
         gas_tanks = int(request.POST.get('gas_tanks'))
         gasoline_beginning = float(request.POST.get('gasoline_beginning'))
         gas_beginning = float(request.POST.get('gas_beginning'))
@@ -44,9 +41,25 @@ def create_station(request):
             start_date=start_date,
             end_date=end_date
         )
-        return redirect('add_tanks', station_id=station.id)
-    return render(request, 'create_station.html')
+        
+        for i in range(gasoline_tanks):
+            amount = float(request.POST.get(f'gasoline_tank_{i}'))
+            Tank.objects.create(station=station, type='gasoline', amount=amount)
+        for i in range(gas_tanks):
+            amount = float(request.POST.get(f'gas_tank_{i}'))
+            Tank.objects.create(station=station, type='gas', amount=amount)
 
+        for i in range(gasoline_nozzles):
+            start_totalizer = float(request.POST.get(f'gasoline_nozzle_start_totalizer_{i}'))
+            end_totalizer = float(request.POST.get(f'gasoline_nozzle_end_totalizer_{i}'))
+            Nozzle.objects.create(station=station, type='gasoline', start_totalizer=start_totalizer, end_totalizer=end_totalizer)
+        for i in range(gas_nozzles):
+            start_totalizer = float(request.POST.get(f'gas_nozzle_start_totalizer_{i}'))
+            end_totalizer = float(request.POST.get(f'gas_nozzle_end_totalizer_{i}'))
+            Nozzle.objects.create(station=station, type='gas', start_totalizer=start_totalizer, end_totalizer=end_totalizer)
+        return render(request, 'create_station.html', {'station': station, 'success': True})
+    
+    return render(request, 'create_station.html')
 def add_tanks(request, station_id):
     station = FuelStation.objects.get(id=station_id)
     if request.method == 'POST':
@@ -57,10 +70,11 @@ def add_tanks(request, station_id):
             amount = float(request.POST.get(f'gas_tank_{i}'))
             Tank.objects.create(station=station, type='gas', amount=amount)
         return redirect('add_nozzles', station_id=station.id)
-    return render(request, 'add_tanks.html', {'station': station})
+    return render(request, 'create_station.html', {'station': station})
 
 def add_nozzles(request, station_id):
     station = FuelStation.objects.get(id=station_id)
+        
     if request.method == 'POST':
         for i in range(station.gasoline_nozzles):
             start_totalizer = float(request.POST.get(f'gasoline_nozzle_start_totalizer_{i}'))
@@ -98,6 +112,14 @@ def station_detail(request, station_id):
 
     gasoline_status = 'کسری' if gasoline_difference > gasoline_end_inventory else 'سرک'
     gas_status = 'کسری' if gas_difference > gas_end_inventory else 'سرک'
+    
+    qire_mojaz = gasoline_mechanical_sales * 0.0045 - gasoline_difference
+    electronic_mechanical_discrepancy = station.electronic_gasoline_sales - gasoline_mechanical_sales
+    electronic_mechanical_discrepancy_gas = station.electronic_gas_sales - gas_mechanical_sales
+
+    # Debugging: print the values
+    print(f"qire_mojaz: {qire_mojaz}")
+    print(f"electronic_mechanical_discrepancy: {electronic_mechanical_discrepancy}")
 
     context = {
         'station': station,
@@ -117,6 +139,10 @@ def station_detail(request, station_id):
         'gas_difference': gas_difference,
         'gasoline_status': gasoline_status,
         'gas_status': gas_status,
+        'qire_mojaz': qire_mojaz,
+        'electronic_mechanical_discrepancy': electronic_mechanical_discrepancy,
+        'electronic_mechanical_discrepancy_gas': electronic_mechanical_discrepancy_gas,
+        
     }
 
     return render(request, 'station_detail.html', context)
@@ -147,6 +173,11 @@ def get_station_context(station_id):
     gasoline_status = 'کسری' if gasoline_difference > 0 else 'سرک'
     gas_status = 'کسری' if gas_difference > 0 else 'سرک'
 
+    qire_mojaz = gasoline_mechanical_sales * 0.0045 - gasoline_difference
+    electronic_mechanical_discrepancy = station.electronic_gasoline_sales - gasoline_mechanical_sales
+    electronic_mechanical_discrepancy_gas = station.electronic_gas_sales - gas_mechanical_sales
+
+    
     context = {
         'station': station,
         'nozzles': nozzles,
@@ -165,10 +196,13 @@ def get_station_context(station_id):
         'gas_difference': gas_difference,
         'gasoline_status': gasoline_status,
         'gas_status': gas_status,
+        'qire_mojaz' : qire_mojaz,
+        'electronic_mechanical_discrepancy': electronic_mechanical_discrepancy,
+        'electronic_mechanical_discrepancy_gas': electronic_mechanical_discrepancy_gas
+
     }
 
     return context
-
 
 def render_pdf_view(request, station_id):
     context = get_station_context(station_id)  # گرفتن کانتکست مستقیماً از تابع کمکی
@@ -211,7 +245,14 @@ def latest_data(request, station_id):
 
     gasoline_status = 'کسری' if gasoline_difference > 0 else 'سرک'
     gas_status = 'کسری' if gas_difference > 0 else 'سرک'
+    
+    qire_mojaz = gasoline_mechanical_sales * 0.0045 - gasoline_difference
+    electronic_mechanical_discrepancy = station.electronic_gasoline_sales - gasoline_mechanical_sales
 
+    qire_mojaz = gasoline_mechanical_sales * 0.0045 - gasoline_difference
+    electronic_mechanical_discrepancy = station.electronic_gasoline_sales - gasoline_mechanical_sales
+    electronic_mechanical_discrepancy_gas = station.electronic_gas_sales - gas_mechanical_sales
+    
     context = {
         'station': station,
         'nozzles': nozzles,
@@ -230,6 +271,9 @@ def latest_data(request, station_id):
         'gas_difference': gas_difference,
         'gasoline_status': gasoline_status,
         'gas_status': gas_status,
+        'qire_mojaz' : qire_mojaz,
+        'electronic_mechanical_discrepancy': electronic_mechanical_discrepancy,
+        'electronic_mechanical_discrepancy_gas': electronic_mechanical_discrepancy_gas
     }
 
     return render(request, 'latest_data.html', context)
