@@ -5,6 +5,7 @@ from .views import home, create_station, add_tanks, add_nozzles, station_detail,
 urlpatterns = [
     path('', home, name='home'),
     path('station/create/', create_station, name='create_station'),
+    
     path('station/<int:station_id>/add_tanks/', add_tanks, name='add_tanks'),
     path('station/<int:station_id>/add_nozzles/', add_nozzles, name='add_nozzles'),
     path('station/<int:station_id>/', station_detail, name='station_detail'),

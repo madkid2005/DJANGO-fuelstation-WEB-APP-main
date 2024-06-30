@@ -3,7 +3,21 @@
 {% load static %}
 
 <style>
-   
+    .text-colorforbuy{
+        color: #979797;
+    }
+       .fixed-bottom-options {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3px;
+            
+        }
+
+    .page-1{
+        display: none;
+    }   
    .button-container {
             display: flex;
             gap: 10px;
@@ -64,25 +78,46 @@
          .gg{
             display: block;
          }
+
+
          
       
 </style>
-<p class="text-center text-white">لطفا یکی از گزینه های زیر انتخاب کنید</p>
-<div class="button-container">
-    <button onclick="showGas()" class="btn glasss btn-gas btn btn-outline-info w-100">گاز</button>
-    <button onclick="showPetrol()" class="btn glasss btn-petrol btn btn-outline-info w-100">بنزین</button>
-    <button onclick="showBoth()" class="btn glasss btn-both btn btn-outline-info w-100">هر دو</button>
+
+<div class="page" id="page1">
+    <h5 class="text-center fw-bold text-white "> نام جایگاه وارد کنید</h5>
+    <form method="post">
+        {% csrf_token %}
+       
+
+        <div  class="form-group text-start   ">
+            <input type="text" class="" id="name" name="name"  placeholder="اسم جایگاه سوخت" required>
+            <label  class="" for="name">اسم جایگاه سوخت</label>
+        </div>
+    </form>
+
 </div>
-<h5 class="text-start text-white mt-3 ms-2 showBase">ایجاد جایگاه سوخت:</h5>
-<div   class="container  mt-4 px-2">
+
+
+
+
+<div class="page" id="page2">
+
+    
+    <p class="text-center text-white">لطفا یکی از گزینه های زیر انتخاب کنید</p>
+    <div class="button-container">
+        <button onclick="showGas()" class="btn glasss btn-gas btn btn-outline-info w-100">گاز</button>
+        <button onclick="showPetrol()" class="btn glasss btn-petrol btn btn-outline-info w-100">بنزین</button>
+        <button onclick="showBoth()" class="btn glasss btn-both btn btn-outline-info w-100">هر دو</button>
+    </div>
+</div>
+
+<div  id="page3"  class="container page mt-4 px-2">
     
     
     <form method="post">
         {% csrf_token %}
-        <div  class="form-group text-start showBase  ">
-            <input type="text" class="" id="name" name="name"  placeholder="اسم جایگاه سوخت" required>
-            <label  class="" for="name">اسم جایگاه سوخت</label>
-        </div>
+       
         <div class="form-group showFuel showAll">
             <input type="number" class="showFuel" step="0.01" placeholder="مقدار رسید بنزین دوره" id="gasoline_received" name="gasoline_received" required>
             <label for="gasoline_received">مقدار رسیده بنزین دوره</label>
@@ -136,9 +171,38 @@
             <label for="end_date">تاریخ پایان دوره</label>
         </div>
         <button type="submit" class="btn btn-light w-100 mt-4 mb-4 showBase text-black">ذخیره</button>
-        <p></p>
+       
+        <p class="p-5"></p>
+
     </form>
+   
+
 </div>
+
+
+<!-- Fixed bottom options -->
+<div class="fixed-bottom fixed-bottom-options">
+    <div class="container-fluid">
+        <div class="row text-center d-flex justify-content-center">
+
+            <div  id="nextButton"   class="col-5 d-flex glasss justify-content-center btn btn-outline-success mx-2">
+                   <div>
+                        <span class=" text-colorforbuylow">
+                           <small>بعدی</small>
+                        </span>
+                    </div>
+            </div>
+            <div id="prevButton" class="col-5 d-flex glasss justify-content-center btn btn-outline-danger mx-2">
+                    <div>
+                        <span class="text-colorforbuylow">
+                            <small>قبل</small>
+                        </span>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
         let BASE = document.querySelectorAll('.showBase');
@@ -244,5 +308,57 @@
                 }
             });
         }
+        document.addEventListener('DOMContentLoaded', () => {
+    const pages = document.querySelectorAll('.page');
+    const nextButton = document.getElementById('nextButton');
+    const prevButton = document.getElementById('prevButton');
+    let currentPageIndex = 0;
+
+    // نمایش صفحه اول
+    pages[currentPageIndex].classList.add('active');
+
+    // بروزرسانی وضعیت دکمه‌ها
+    function updateButtons() {
+        prevButton.disabled = currentPageIndex === 0;
+        nextButton.disabled = currentPageIndex === pages.length - 1;
+    }
+
+    // بروزرسانی دکمه‌ها برای اولین بار
+    updateButtons();
+
+    nextButton.addEventListener('click', () => {
+        if (currentPageIndex < pages.length - 1) {
+            // پنهان کردن صفحه فعلی
+            pages[currentPageIndex].classList.remove('active');
+            // افزایش اندیس صفحه
+            currentPageIndex++;
+            // نمایش صفحه جدید
+            pages[currentPageIndex].classList.add('active');
+            // بروزرسانی وضعیت دکمه‌ها
+            updateButtons();
+        }
+    });
+
+    prevButton.addEventListener('click', () => {
+        if (currentPageIndex > 0) {
+            // پنهان کردن صفحه فعلی
+            pages[currentPageIndex].classList.remove('active');
+            // کاهش اندیس صفحه
+            currentPageIndex--;
+            // نمایش صفحه جدید
+            pages[currentPageIndex].classList.add('active');
+            // بروزرسانی وضعیت دکمه‌ها
+            updateButtons();
+        }
+    });
+});
+
+
+    
+
+        
+
+
+        
 </script>
 {% endblock %}
