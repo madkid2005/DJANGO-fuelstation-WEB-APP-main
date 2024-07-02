@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container  mt-4 px-2">
-    <form method="post">
+    <form id="myForm" method="post">
         {% csrf_token %}
 
         <div class="page" id="page1">
@@ -170,7 +170,6 @@
                 <label  class="" for="controller"> نام بازرس </label>
             </div>
             <div class="mb-3 mt-4 py-2">
-                <button type="submit" class="btn btn-light w-100 mb-5  showBase text-black ">ذخیره</button>
                 <span class="p-4"></span>
             </div>
         </div>
@@ -219,5 +218,6 @@
             }
         });
     });
+    
 </script>
 {% endblock %}
