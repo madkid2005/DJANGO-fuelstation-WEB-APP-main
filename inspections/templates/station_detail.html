@@ -35,10 +35,31 @@
         }
     }
 </style>
+<div class="page" id="page2">
+
+    <p class="text-center text-white">لطفا یکی از گزینه های زیر انتخاب کنید</p>
+    <div class="button-container d-grid">
+
+        <button onclick="showGas()" class="btn glasss btn-gas btn btn-outline-info w-100 mt-3 bi bi-circle-fill text-warning">
+            <span class="ms-1 text-white">نفتگاز</span>
+        </button>
+
+        <button onclick="showPetrol()" class="btn glasss btn-petrol btn btn-outline-info w-100 mt-3 bi bi-circle-fill text-danger">
+            <span class="ms-1 text-white">بنزین</span>
+        </button>
+        
+        <button onclick="showBoth()" class="btn glasss btn-both btn btn-outline-info w-100 mt-3 ">
+            <span class="bi bi-circle-fill text-warning ms-1"></span>
+            <span class="ms-1 me-1 text-white"> هر دو </span>
+            <span class="bi bi-circle-fill text-danger me-1"></span>
+        </button>
+    </div>
+
+</div>
 <div class="container mt-4">
     <div class="row">
 
-        <div class="col-12 border border-1 p-1">
+        <div class="col-12 border border-1 p-1 showBase">
             <div class="d-flex justify-content-between">
     
                 <div>
@@ -61,7 +82,7 @@
         </div>
     
 
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 showAll showBoth showFuel">
 
     <table>
         <thead>
@@ -150,12 +171,12 @@
 </div>
 
 
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 showAll showBoth showGaz">
 
     <table>
         <thead>
             <tr>
-                <th colspan="4">گزارش عملیات نفتگاز</th>
+                <th colspan="4">گزارش عملیات نفتنفتگاز</th>
             </tr>
         </thead>
         <tbody>
@@ -203,18 +224,18 @@
             </tr>
             <tr>
                 
-                <td colspan="3">کل فروش مکانیکی نفتگاز</td>
+                <td colspan="3">کل فروش مکانیکی نفتنفتگاز</td>
                  <td >{{ gas_mechanical_sales }}</td>
 
             </tr>
             <tr>
                
-                <td colspan="3">کل فروش الکترونیکی نفتگاز طبق گزارش سامانه</td>
+                <td colspan="3">کل فروش الکترونیکی نفتنفتگاز طبق گزارش سامانه</td>
                 <td style="background-color: yellow;">{{ station.electronic_gas_sales }}</td>
 
             </tr>
             <tr>
-                <td colspan="3">مقدار سرک / کسری نفتگاز</td>
+                <td colspan="3">مقدار سرک / کسری نفتنفتگاز</td>
 
                 <td style="background-color: yellow;">{{ gas_difference }} ({{ gas_status }})</td>
 
@@ -228,7 +249,7 @@
             </tr>
             <tr>
                 
-                <td colspan="3" >مقدار مغایرت مکانیکی و الکترونیکی نفتگاز</td>
+                <td colspan="3" >مقدار مغایرت مکانیکی و الکترونیکی نفتنفتگاز</td>
                 <td  style="background-color: yellow;"> {{ electronic_mechanical_discrepancy_gas }} </td>
 
             </tr>
@@ -236,7 +257,7 @@
     </table>
 </div>
 
-<div class="border border-1 p-1">
+<div class="border border-1 p-1 showBase">
 
     <div class="d-flex justify-content-between mt-5 mb-5">
 
@@ -253,7 +274,7 @@
 </div>
 
 
-    <a href="{% url 'render_pdf' station.id %}" class="btn btn-success mt-1 mb-3">دانلود PDF</a>
+    <a href="{% url 'render_pdf' station.id %}" class="btn btn-success mt-1 mb-3 showBase">دانلود PDF</a>
 </div>
 </div>
 
