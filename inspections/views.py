@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import FuelStation, Tank, Nozzle
-from django.template.loader import get_template
-from xhtml2pdf import pisa
 from django.db import transaction
 from django.urls import reverse
+from django.template.loader import render_to_string
 import jdatetime
 
 
@@ -30,21 +29,9 @@ def create_station(request):
         end_date = request.POST.get('end_date')
         controller = request.POST.get('controller')
 
-        # تبدیل تاریخ شمسی به میلادی
-        start_date_parts = list(map(int, start_date.split('-')))
-        end_date_parts = list(map(int, end_date.split('-')))
-
-        gregorian_start_date = jdatetime.date(
-            start_date_parts[0],
-            start_date_parts[1],
-            start_date_parts[2]
-        ).togregorian()
-
-        gregorian_end_date = jdatetime.date(
-            end_date_parts[0],
-            end_date_parts[1],
-            end_date_parts[2]
-        ).togregorian()
+        # # Convert Jalali dates to Gregorian dates
+        # start_date = jdatetime.date.fromisoformat(start_date).togregorian()
+        # end_date = jdatetime.date.fromisoformat(end_date).togregorian()
         
         with transaction.atomic():
             station = FuelStation.objects.create(
@@ -59,8 +46,8 @@ def create_station(request):
                 gas_received=gas_received,
                 electronic_gasoline_sales=electronic_gasoline_sales,
                 electronic_gas_sales=electronic_gas_sales,
-                start_date=gregorian_start_date,
-                end_date=gregorian_end_date,
+                start_date=start_date,
+                end_date=end_date,
                 controller=controller
             )
 
@@ -118,34 +105,38 @@ def station_detail(request, station_id):
     nozzles = Nozzle.objects.filter(station=station)
     tanks = Tank.objects.filter(station=station)
 
-    gasoline_mechanical_sales = sum(n.mechanical_sales() for n in nozzles if n.type == 'gasoline')
+    # FOROSH MEKANIKI NAZEL HA
+    gasoline_mechanical_sales = station.gasoline_mechanical_sales()
     gas_mechanical_sales = sum(n.mechanical_sales() for n in nozzles if n.type == 'gas')
 
+    # JAME HAMEYE MAKHAZEN
     gasoline_end_inventory = sum(t.amount for t in tanks if t.type == 'gasoline')
     gas_end_inventory = sum(t.amount for t in tanks if t.type == 'gas')
-
+    
+    # EBTEDA DORE + RESIDE
     total_gasoline_inventory = station.gasoline_beginning + station.gasoline_received
     total_gas_inventory = station.gas_beginning + station.gas_received
 
-    gasoline_outflow = total_gasoline_inventory - gasoline_end_inventory
-    gas_outflow = total_gas_inventory - gas_end_inventory
+    # RESIDE - MOJODI MAKHAZEN
+    gasoline_outflow = station.gasoline_received - gasoline_end_inventory
+    gas_outflow = station.gas_received - gas_end_inventory
 
-    gasoline_after_sales = total_gasoline_inventory - gasoline_mechanical_sales
-    gas_after_sales = total_gas_inventory - gas_mechanical_sales
+    # MEKANIKI - KHAREJ SHODE
+    gasoline_difference = gasoline_mechanical_sales - gasoline_outflow
+    gas_difference = gas_mechanical_sales - gas_outflow
 
-    gasoline_difference = gasoline_end_inventory - gasoline_after_sales
-    gas_difference = gas_end_inventory - gas_after_sales
-
-    gasoline_status = 'کسری' if gasoline_difference > gasoline_end_inventory else 'سرک'
-    gas_status = 'کسری' if gas_difference > gas_end_inventory else 'سرک'
+    # AGE MOSBAT BOD SARAK AGE MANFI BOD KASRI
+    gasoline_status = 'کسری' if gasoline_difference < 0 else 'سرک'
+    gas_status = 'کسری' if gas_difference > 0 else 'سرک'
     
-    qire_mojaz = gasoline_mechanical_sales * 0.0045 - gasoline_difference
+    # MEKANIKI NAZEL HA * 0.0045 - TAFAVOT FOROSH VA MOJODI(RESIDE)
+    qire_mojaz = (gasoline_mechanical_sales * 0.0045) - gasoline_difference
+    
+    # TAFAVOT ELECTRONIKI VA MEKANIKI
     electronic_mechanical_discrepancy = station.electronic_gasoline_sales - gasoline_mechanical_sales
     electronic_mechanical_discrepancy_gas = station.electronic_gas_sales - gas_mechanical_sales
 
-    # Debugging: print the values
-    print(f"qire_mojaz: {qire_mojaz}")
-    print(f"electronic_mechanical_discrepancy: {electronic_mechanical_discrepancy}")
+    
 
     context = {
         'station': station,
@@ -159,8 +150,8 @@ def station_detail(request, station_id):
         'total_gas_inventory': total_gas_inventory,
         'gasoline_outflow': gasoline_outflow,
         'gas_outflow': gas_outflow,
-        'gasoline_after_sales': gasoline_after_sales,
-        'gas_after_sales': gas_after_sales,
+        # 'gasoline_after_sales': gasoline_after_sales,
+        # 'gas_after_sales': gas_after_sales,
         'gasoline_difference': gasoline_difference,
         'gas_difference': gas_difference,
         'gasoline_status': gasoline_status,
@@ -229,20 +220,14 @@ def get_station_context(station_id):
 
     return context
 
-def render_pdf_view(request, station_id):
-    context = get_station_context(station_id)  # گرفتن کانتکست مستقیماً از تابع کمکی
+def generate_pdf(request, station_id):
+    context = get_station_context(station_id)
+    html_string = render_to_string('pdf_template.html', context)
+    html = HTML(string=html_string)
+    pdf = html.write_pdf()
 
-    template_path = 'pdf_template.html'
-
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-
-    template = get_template(template_path)
-    html = template.render(context)  # رندر قالب با کانتکست
-
-    pisa_status = pisa.CreatePDF(html, dest=response)
-    if pisa_status.err:
-        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="station.pdf"'
     return response
 
 def latest_data(request, station_id):

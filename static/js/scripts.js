@@ -284,3 +284,8 @@ $(document).ready(function() {
     $("#start_date").persianDatepicker();
     $("#end_date").persianDatepicker();
 });
+
+function handleClick(buttonClass) {
+    localStorage.setItem('clickedButton', buttonClass);
+    window.location.href = "{% url ' staion_detail' %}";
+}
