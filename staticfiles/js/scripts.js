@@ -98,7 +98,6 @@ function showBoth() {
         }
     });
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     const pages = document.querySelectorAll('.page');
     let nextButton = document.getElementById('nextButton');
@@ -180,34 +179,33 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
     // JavaScript for dynamically adding tank and nozzle fields
-document.getElementById('gasoline_tanks').addEventListener('change', function() {
-    var tankCount = parseInt(this.value);
-    var container = document.getElementById('gasoline-tanks');
-    container.innerHTML = '';
-    for (var i = 1; i <= tankCount; i++) {
-        container.innerHTML += `
-            <div class="form-group">
-                <input type="number" step="0.01" id="gasoline_tank_${i}" name="gasoline_tank_${i}" placeholder="موجوی مخزن بنزین ${i} " required>
-                <label for="gasoline_tank_${i}">موجوی مخزن بنزین  ${i} </label>
-            </div>
-        `;
-    }
-});
-
-document.getElementById('gas_tanks').addEventListener('change', function() {
-    var tankCount = parseInt(this.value);
-    var container = document.getElementById('gas-tanks');
-    container.innerHTML = '';
-    for (var i = 1; i <= tankCount; i++) {
-        container.innerHTML += `
-            <div class="form-group">
-                <input type="number" step="0.01" id="gas_tank_${i}" name="gas_tank_${i}" placeholder="موجوی مخزن نفتگاز ${i} " required>
-                <label for="gas_tank_${i}">موجوی مخزن نفتگاز  ${i} </label>
-            </div>
-        `;
-    }
-});
-
+    document.getElementById('gasoline_tanks').addEventListener('change', function() {
+        var tankCount = parseInt(this.value);
+        var container = document.getElementById('gasoline-tanks');
+        container.innerHTML = '';
+        for (var i = 1; i <= tankCount; i++) {
+            container.innerHTML += `
+                <div class="form-group">
+                    <input type="number" step="0.01" id="gasoline_tank_${i}" name="gasoline_tank_${i}" placeholder="موجوی مخزن بنزین ${i}" required>
+                    <label for="gasoline_tank_${i}">موجوی مخزن بنزین ${i}</label>
+                </div>
+            `;
+        }
+    });
+    
+    document.getElementById('gas_tanks').addEventListener('change', function() {
+        var tankCount = parseInt(this.value);
+        var container = document.getElementById('gas-tanks');
+        container.innerHTML = '';
+        for (var i = 1; i <= tankCount; i++) {
+            container.innerHTML += `
+                <div class="form-group">
+                    <input type="number" step="0.01" id="gas_tank_${i}" name="gas_tank_${i}" placeholder="موجوی مخزن نفتگاز ${i}" required>
+                    <label for="gas_tank_${i}">موجوی مخزن نفتگاز ${i}</label>
+                </div>
+            `;
+        }
+    });
 document.getElementById('gasoline_nozzles').addEventListener('change', function() {
     var nozzleCount = parseInt(this.value);
     var container = document.getElementById('gasoline-nozzles');
@@ -247,12 +245,12 @@ document.getElementById('gasoline_nozzles').addEventListener('change', function(
     <h5 class="text-start text-danger mt-3 ms-2 "><i class="bi bi-circle-fill"></i></h5>
 
             <div class="form-group">
-                <input type="number" step="0.01" id="gasoline_nozzle_start_totalizer_${i}" name="gasoline_nozzle_start_totalizer_${i}" placeholder="مقدار توتالیزو ابتدا دوره نازل بنزین شماره " class="" required>
-                <label for="gasoline_nozzle_start_totalizer_${i}">مقدار توتالیزو ابتدا دوره نازل بنزین شماره  ${i + 1}</label>
+                <input type="number" step="0.01" id="gasoline_nozzle_start_totalizer_${i}" name="gasoline_nozzle_start_totalizer_${i}" placeholder=" توتالیزو ابتدا دوره نازل بنزین شماره " class="" required>
+                <label for="gasoline_nozzle_start_totalizer_${i}"> توتالایزر ابتدا دوره نازل بنزین شماره  ${i + 1}</label>
             </div>
             <div class="form-group">
-                <input type="number" step="0.01" id="gasoline_nozzle_end_totalizer_${i}" name="gasoline_nozzle_end_totalizer_${i}" placeholder="مقدار توتالیزو انتها دوره نازل بنزین شماره "  class="" required>
-                <label for="gasoline_nozzle_end_totalizer_${i}">مقدار توتالیزو انتها دوره نازل بنزین شماره  ${i + 1}</label>
+                <input type="number" step="0.01" id="gasoline_nozzle_end_totalizer_${i}" name="gasoline_nozzle_end_totalizer_${i}" placeholder=" توتالیزو انتها دوره نازل بنزین شماره "  class="" required>
+                <label for="gasoline_nozzle_end_totalizer_${i}"> توتالایزر انتها دوره نازل بنزین شماره  ${i + 1}</label>
             </div>
         `;
     }
@@ -267,12 +265,12 @@ document.getElementById('gas_nozzles').addEventListener('change', function() {
     <h5 class="text-start text-warning mt-3 ms-2 "><i class="bi bi-circle-fill"></i></h5>
             
             <div class="form-group">
-                <input type="number" step="0.01" id="gas_nozzle_start_totalizer_${i}" name="gas_nozzle_start_totalizer_${i}" placeholder="مقدار توتالیزو ابتدا دوره نازل نفتگاز شماره " class="" required>
-                <label for="gas_nozzle_start_totalizer_${i}">مقدار توتالیزو ابتدا دوره نازل نفتگاز شماره  ${i + 1}</label>
+                <input type="number" step="0.01" id="gas_nozzle_start_totalizer_${i}" name="gas_nozzle_start_totalizer_${i}" placeholder=" توتالیزو ابتدا دوره نازل نفتگاز شماره " class="" required>
+                <label for="gas_nozzle_start_totalizer_${i}"> توتالیزو ابتدا دوره نازل نفتگاز شماره  ${i + 1}</label>
             </div>
             <div class="form-group">
-                <input type="number" step="0.01" id="gas_nozzle_end_totalizer_${i}" name="gas_nozzle_end_totalizer_${i}" placeholder="مقدار توتالیزو انتها دوره نازل نفتگاز شماره " class="" required>
-                <label for="gas_nozzle_end_totalizer_${i}">مقدار توتالیزو انتها دوره نازل نفتگاز شماره  ${i + 1}</label>
+                <input type="number" step="0.01" id="gas_nozzle_end_totalizer_${i}" name="gas_nozzle_end_totalizer_${i}" placeholder=" توتالیزو انتها دوره نازل نفتگاز شماره " class="" required>
+                <label for="gas_nozzle_end_totalizer_${i}"> توتالیزو انتها دوره نازل نفتگاز شماره  ${i + 1}</label>
             </div>
         `;
     }
