@@ -11,20 +11,17 @@ function showGas() {
     });
     BASE.forEach(element => {
         element.classList.remove('showBase');
-        element.classList.add('gg')
+        element.classList.add('gg');
     });
     
-    BASE.forEach(element => {
-        element.classList.remove('showBase');
-        element.classList.add('gg')
-
-    });
     fuelElements.forEach(element => {
         element.style.display = 'none';
         if (element.tagName === 'INPUT') {
             element.value = '0';
         }
     });
+
+    localStorage.setItem('fuelType', 'gas');
 }
 
 function showPetrol() {
@@ -39,21 +36,17 @@ function showPetrol() {
     });
     BASE.forEach(element => {
         element.classList.remove('showBase');
-        element.classList.add('gg')
-
+        element.classList.add('gg');
     });
     
-    BASE.forEach(element => {
-        element.classList.remove('showBase');
-        element.classList.add('gg')
-
-    });
     fuelElements.forEach(element => {
         element.style.display = 'block';
         if (element.tagName === 'INPUT') {
             element.value = '';
         }
     });
+
+    localStorage.setItem('fuelType', 'petrol');
 }
 
 function showBoth() {
@@ -65,7 +58,8 @@ function showBoth() {
         if (element.tagName === 'INPUT') {
             element.value = '0';
         }
-    });fuelElements.forEach(element => {
+    });
+    fuelElements.forEach(element => {
         element.style.display = 'none';
         if (element.tagName === 'INPUT') {
             element.value = '0';
@@ -73,16 +67,8 @@ function showBoth() {
     });
     BASE.forEach(element => {
         element.classList.remove('showBase');
-        element.classList.add('gg')
-
+        element.classList.add('gg');
     });
-    
-    BASE.forEach(element => {
-        element.classList.remove('showBase');
-        element.classList.add('gg')
-
-    });
-    
     
     gasElements.forEach(element => {
         element.style.display = 'block';
@@ -97,6 +83,8 @@ function showBoth() {
             element.value = '';
         }
     });
+
+    localStorage.setItem('fuelType', 'both');
 }
 document.addEventListener('DOMContentLoaded', () => {
     const pages = document.querySelectorAll('.page');
