@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+<style>
+    #buttonContainer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: bottom 0.3s;
+}
 
+</style>
 <div class="container  mt-4 px-2">
     <form method="post" id="myForm">
         {% csrf_token %}
@@ -42,13 +51,18 @@
             <div class="form-group showBase">
                 <div id="start_date_container" class="datepicker-container"></div>
                 <label for="start_date">تاریخ شروع (شمسی):</label>
-                <input type="data" id="start_date" name="start_date" required placeholder="YYYY-MM-DD"><br>            </div>
-        
+                <input type="text" id="start_date" name="start_date" required placeholder="YYYY-MM-DD"><br>
+            </div>
+
             <div class="form-group showBase">
                 <div id="end_date_container" class="datepicker-container"></div>
                 <label for="end_date">تاریخ پایان (شمسی):</label>
-                <input type="data" id="end_date" name="end_date" required placeholder="YYYY-MM-DD"><br>
+                <input type="text" id="end_date" name="end_date" required placeholder="YYYY-MM-DD"><br>
             </div>
+
+            <input type="hidden" id="start_date_gregorian" name="start_date_gregorian">
+            <input type="hidden" id="end_date_gregorian" name="end_date_gregorian">
+
         </div>
         
         <div class="page " id="page5">
@@ -178,27 +192,26 @@
     </form>
 </div>
 
-
 <!-- Fixed bottom options -->
-<div class="fixed-bottom fixed-bottom-options mb-3 pt-5">
+<div class="fixed-bottom fixed-bottom-options mb-3 pt-5" id="buttonContainer">
     <div class="container-fluid">
         <div class="row text-center d-flex justify-content-center">
-
-            <div  id="nextButton"   class="col-5 d-flex glasss justify-content-center btn btn-outline-success mx-2 ">
+            <div id="nextButton" class="col-5 d-flex glasss justify-content-center btn btn-outline-success mx-2">
                 <div>
-                    <span class=" text-colorforbuylow fw-bold"> ادامه </span>
+                    <span class="text-colorforbuylow fw-bold"> ادامه </span>
                 </div>
             </div>
-
             <div id="prevButton" class="col-5 d-flex glasss justify-content-center btn btn-outline-danger mx-2">
                 <div>
                     <span class="text-colorforbuylow"> بازگشت </span>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
 
 <script>
     // انتخاب تمام عناصر با کلاس showFuel
@@ -220,6 +233,61 @@
             }
         });
     });
-    
+
+    // تاریخ شمسی
+    $(document).ready(function() {
+            $('#start_date_container').persianDatepicker({
+                observer: true,
+                format: 'YYYY-MM-DD',
+                altField: '#start_date',
+                altFormat: 'YYYY-MM-DD',
+                onSelect: function(unixDate) {
+                    var date = new persianDate(unixDate).toGregorian();
+                    $('#start_date_gregorian').val(date.format('YYYY-MM-DD'));
+                }
+            });
+
+            $('#end_date_container').persianDatepicker({
+                observer: true,
+                format: 'YYYY-MM-DD',
+                altField: '#end_date',
+                altFormat: 'YYYY-MM-DD',
+                onSelect: function(unixDate) {
+                    var date = new persianDate(unixDate).toGregorian();
+                    $('#end_date_gregorian').val(date.format('YYYY-MM-DD'));
+                }
+            });
+
+            $('#date-form').on('submit', function() {
+                // همزمان با ارسال فرم، مقدار تاریخ میلادی را تنظیم کنید
+                var startDate = $('#start_date').val();
+                var startDateGregorian = new persianDate(startDate).toGregorian().format('YYYY-MM-DD');
+                $('#start_date_gregorian').val(startDateGregorian);
+
+                var endDate = $('#end_date').val();
+                var endDateGregorian = new persianDate(endDate).toGregorian().format('YYYY-MM-DD');
+                $('#end_date_gregorian').val(endDateGregorian);
+            });
+        });
+
+
+
+        // fix buttom 
+
+        function adjustButtonPosition() {
+    const buttonContainer = document.getElementById('buttonContainer');
+    if (window.visualViewport.height < window.innerHeight) {
+        // Keyboard is open
+        buttonContainer.style.bottom = `${window.innerHeight - window.visualViewport.height}px`;
+    } else {
+        // Keyboard is closed
+        buttonContainer.style.bottom = '0';
+    }
+}
+
+// Adjust on viewport resize
+window.visualViewport.addEventListener('resize', adjustButtonPosition);
+
+
 </script>
 {% endblock %}
